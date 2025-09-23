@@ -20,7 +20,7 @@ jobs:
         with: 
           python-version: '3.11'
       
-      - name: Install dependencies
+      - name: Installing dependencies
         run: |
           pip install requests flask
       
