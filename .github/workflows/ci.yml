@@ -1,0 +1,41 @@
+name: CI pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+
+jobs: 
+  ci: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4 
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with: 
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          pip install requests flask
+      
+      - name: Test Flask app Starts
+        run: |
+          python -c "
+          from app import app;
+          with app.test_client(): pass
+          print('App imported and Started ✅✅')
+          "
+      - name: Check formatting with black
+        run: |
+          pip install black
+          black --check . 
+      - name: Lint with flake8
+        run: |
+          pip install flake8
+          flake8 app.py
